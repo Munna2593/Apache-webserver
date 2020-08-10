@@ -1,0 +1,26 @@
+--- 
+- 
+  hosts: ansibleclient01.local
+  name: "This sets up an httpd webserver"
+  tasks: 
+    - 
+      name: "Install apache packages"
+      yum: 
+        name: httpd
+        state: present
+    - 
+      name: "ensure httpd is running"
+      service: 
+        name: httpd
+        state: started
+    - 
+      firewalld: 
+        permanent: true
+        service: http
+        state: enabled
+      name: "Open port 80 for http access"
+    - 
+      name: "Restart the firewalld service to load in the firewall changes"
+      service: 
+        name: firewalld
+        state: restarted
